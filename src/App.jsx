@@ -13,30 +13,45 @@ function App() {
     setIsSubmitting(true);
 
     const form = e.target;
-    const formData = new FormData(form);
     
     try {
-      // Create a URLSearchParams object
-      const params = new URLSearchParams();
+      // Add the pageclip-form class
+      form.classList.add('pageclip-form');
       
-      // Add each form field to the params
-      for (const [key, value] of formData.entries()) {
-        params.append(key, value);
+      // Use the Pageclip library directly
+      const Pageclip = window.Pageclip;
+      
+      if (Pageclip) {
+        Pageclip.form(form, {
+          onSubmit: () => {
+            console.log('Starting submission...');
+          },
+          onResponse: (error, response) => {
+            setIsSubmitting(false);
+            if (!error) {
+              console.log('Submission successful');
+              setSubmissionSuccess(true);
+              setShowForm(false);
+              form.reset();
+            } else {
+              console.error('Submission failed:', error);
+              setSubmissionSuccess(false);
+            }
+          }
+        }).submit();
+      } else {
+        // Fallback if Pageclip is not available
+        const formData = new FormData(form);
+        const response = await fetch('https://send.pageclip.co/vASBJvGlsoZtFuqI7KzeIMP6ga4mdjU1/arena', {
+          method: 'POST',
+          mode: 'no-cors',
+          body: formData
+        });
+        
+        setSubmissionSuccess(true);
+        setShowForm(false);
+        form.reset();
       }
-
-      const response = await fetch('https://send.pageclip.co/vASBJvGlsoZtFuqI7KzeIMP6ga4mdjU1/arena', {
-        method: 'POST',
-        mode: 'no-cors',
-        headers: {
-          'Content-Type': 'application/x-www-form-urlencoded',
-        },
-        body: params.toString()
-      });
-
-      // Since we're using no-cors, we won't get a response status
-      setSubmissionSuccess(true);
-      setShowForm(false);
-      form.reset();
     } catch (error) {
       console.error('Submission error:', error);
       setSubmissionSuccess(false);
