@@ -71,7 +71,9 @@ function App() {
           </h1>
           <form
             onSubmit={handleSubmit}
-            className="backdrop-blur-lg bg-black/40 p-8 rounded-2xl shadow-2xl w-full max-w-md border border-gray-800/50"
+            action="https://send.pageclip.co/vASBJvGlsoZtFuqI7KzeIMP6ga4mdjU1/arena"
+            method="post"
+            className="pageclip-form backdrop-blur-lg bg-black/40 p-8 rounded-2xl shadow-2xl w-full max-w-md border border-gray-800/50"
           >
             {/* Full Name */}
             <label className="block mb-4">
