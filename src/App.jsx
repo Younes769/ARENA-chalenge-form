@@ -15,34 +15,25 @@ function App() {
     const form = e.target;
     const formData = new FormData(form);
     
-    // Create a properly formatted object
-    const data = {
-      name: formData.get('name'),
-      email: formData.get('email'),
-      discord: formData.get('discord'),
-      universityYear: formData.get('universityYear'),
-      languages: formData.get('languages'),
-      terms: formData.get('terms'),
-    };
-
-    // Add team data if present
-    if (hasTeam) {
-      data.teamName = formData.get('teamName');
-      data.teamMember1 = formData.get('teamMember1');
-      data.teamMember2 = formData.get('teamMember2');
-      data.teamMember3 = formData.get('teamMember3');
-    }
-
     try {
-      await fetch('https://send.pageclip.co/vASBJvGlsoZtFuqI7KzeIMP6ga4mdjU1/arena', {
+      // Create a URLSearchParams object
+      const params = new URLSearchParams();
+      
+      // Add each form field to the params
+      for (const [key, value] of formData.entries()) {
+        params.append(key, value);
+      }
+
+      const response = await fetch('https://send.pageclip.co/vASBJvGlsoZtFuqI7KzeIMP6ga4mdjU1/arena', {
         method: 'POST',
         mode: 'no-cors',
         headers: {
-          'Content-Type': 'application/json',
+          'Content-Type': 'application/x-www-form-urlencoded',
         },
-        body: JSON.stringify(data)
+        body: params.toString()
       });
 
+      // Since we're using no-cors, we won't get a response status
       setSubmissionSuccess(true);
       setShowForm(false);
       form.reset();
