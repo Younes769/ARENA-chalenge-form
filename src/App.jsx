@@ -12,29 +12,29 @@ function App() {
     e.preventDefault();
     setIsSubmitting(true);
 
-    const form = e.target;
-    const formData = new FormData(form);
-
-    const formObject = {};
-    formData.forEach((value, key) => {
-      formObject[key] = value;
-    });
-
     try {
-      const response = await fetch('https://send.pageclip.co/vASBJvGlsoZtFuqI7KzeIMP6ga4mdjU1/arena', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(formObject)
+      const form = e.target;
+      const pageclip = new window.Pageclip('vASBJvGlsoZtFuqI7KzeIMP6ga4mdjU1');
+      
+      const result = await pageclip.send({
+        form: form,
+        name: form.name.value,
+        email: form.email.value,
+        discord: form.discord.value,
+        universityYear: form.universityYear.value,
+        languages: form.languages.value,
+        teamName: form.teamName?.value,
+        teamMember1: form.teamMember1?.value,
+        teamMember2: form.teamMember2?.value,
+        teamMember3: form.teamMember3?.value,
       });
 
-      if (response.ok) {
+      if (result.ok) {
         setSubmissionSuccess(true);
         setIsSubmitting(false);
         setShowForm(false);
       } else {
-        console.error('Submission failed');
+        console.error('Submission failed:', result);
         setSubmissionSuccess(false);
         setIsSubmitting(false);
       }
