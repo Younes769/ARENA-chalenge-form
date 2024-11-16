@@ -15,43 +15,19 @@ function App() {
     const form = e.target;
     
     try {
-      // Add the pageclip-form class
-      form.classList.add('pageclip-form');
+      const formData = new FormData(form);
       
-      // Use the Pageclip library directly
-      const Pageclip = window.Pageclip;
+      const response = await fetch('https://send.pageclip.co/vASBJvGlsoZtFuqI7KzeIMP6ga4mdjU1/arena', {
+        method: 'POST',
+        mode: 'no-cors',
+        body: formData
+      });
+
+      console.log('Submission completed');
+      setSubmissionSuccess(true);
+      setShowForm(false);
+      form.reset();
       
-      if (Pageclip) {
-        Pageclip.form(form, {
-          onSubmit: () => {
-            console.log('Starting submission...');
-          },
-          onResponse: (error, response) => {
-            setIsSubmitting(false);
-            if (!error) {
-              console.log('Submission successful');
-              setSubmissionSuccess(true);
-              setShowForm(false);
-              form.reset();
-            } else {
-              console.error('Submission failed:', error);
-              setSubmissionSuccess(false);
-            }
-          }
-        }).submit();
-      } else {
-        // Fallback if Pageclip is not available
-        const formData = new FormData(form);
-        const response = await fetch('https://send.pageclip.co/vASBJvGlsoZtFuqI7KzeIMP6ga4mdjU1/arena', {
-          method: 'POST',
-          mode: 'no-cors',
-          body: formData
-        });
-        
-        setSubmissionSuccess(true);
-        setShowForm(false);
-        form.reset();
-      }
     } catch (error) {
       console.error('Submission error:', error);
       setSubmissionSuccess(false);
