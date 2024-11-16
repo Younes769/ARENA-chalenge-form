@@ -12,35 +12,28 @@ function App() {
     e.preventDefault();
     setIsSubmitting(true);
 
+    const form = e.target;
+    
     try {
-      const form = e.target;
-      const pageclip = new window.Pageclip('vASBJvGlsoZtFuqI7KzeIMP6ga4mdjU1');
-      
-      const result = await pageclip.send({
-        form: form,
-        name: form.name.value,
-        email: form.email.value,
-        discord: form.discord.value,
-        universityYear: form.universityYear.value,
-        languages: form.languages.value,
-        teamName: form.teamName?.value,
-        teamMember1: form.teamMember1?.value,
-        teamMember2: form.teamMember2?.value,
-        teamMember3: form.teamMember3?.value,
+      const response = await fetch('https://send.pageclip.co/vASBJvGlsoZtFuqI7KzeIMP6ga4mdjU1/arena', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(Object.fromEntries(new FormData(form)))
       });
 
-      if (result.ok) {
+      if (response.ok) {
         setSubmissionSuccess(true);
-        setIsSubmitting(false);
         setShowForm(false);
+        form.reset();
       } else {
-        console.error('Submission failed:', result);
         setSubmissionSuccess(false);
-        setIsSubmitting(false);
       }
     } catch (error) {
       console.error('Submission error:', error);
       setSubmissionSuccess(false);
+    } finally {
       setIsSubmitting(false);
     }
   };
@@ -48,10 +41,12 @@ function App() {
   return (
     <div className="min-h-screen flex flex-col items-center justify-center p-4 bg-gradient-to-tl from-indigo-900 via-blue-800 to-blue-900">
       <img src={logo} alt="Arena Logo" className="w-32 h-32 mb-4" />
-      
+
       {showForm ? (
         <>
-          <h1 className="text-3xl font-bold mb-6 text-white/90">Registration</h1>
+          <h1 className="text-3xl font-bold mb-6 text-white/90">
+            Registration
+          </h1>
           <form
             onSubmit={handleSubmit}
             className="backdrop-blur-lg bg-black/40 p-8 rounded-2xl shadow-2xl w-full max-w-md border border-gray-800/50"
@@ -122,7 +117,9 @@ function App() {
             </label>
 
             <label className="block mb-4">
-              <span className="text-white/90 mb-1 block">Do you have a team?</span>
+              <span className="text-white/90 mb-1 block">
+                Do you have a team?
+              </span>
               <select
                 onChange={(e) => setHasTeam(e.target.value === "yes")}
                 required
@@ -198,44 +195,52 @@ function App() {
             {submissionSuccess ? (
               <>
                 <div className="w-16 h-16 bg-green-500/10 rounded-full flex items-center justify-center mb-4">
-                  <svg 
-                    className="w-10 h-10 text-green-400" 
-                    fill="none" 
-                    stroke="currentColor" 
+                  <svg
+                    className="w-10 h-10 text-green-400"
+                    fill="none"
+                    stroke="currentColor"
                     viewBox="0 0 24 24"
                   >
-                    <path 
-                      strokeLinecap="round" 
-                      strokeLinejoin="round" 
-                      strokeWidth={2} 
-                      d="M5 13l4 4L19 7" 
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M5 13l4 4L19 7"
                     />
                   </svg>
                 </div>
-                <h2 className="text-2xl font-bold text-white/90">Registration Successful!</h2>
+                <h2 className="text-2xl font-bold text-white/90">
+                  Registration Successful!
+                </h2>
                 <p className="text-green-400">Thank you for joining Arena.</p>
-                <p className="text-gray-400 text-sm">We'll be in touch with you soon!</p>
+                <p className="text-gray-400 text-sm">
+                  We'll be in touch with you soon!
+                </p>
               </>
             ) : (
               <>
                 <div className="w-16 h-16 bg-red-500/10 rounded-full flex items-center justify-center mb-4">
-                  <svg 
-                    className="w-10 h-10 text-red-400" 
-                    fill="none" 
-                    stroke="currentColor" 
+                  <svg
+                    className="w-10 h-10 text-red-400"
+                    fill="none"
+                    stroke="currentColor"
                     viewBox="0 0 24 24"
                   >
-                    <path 
-                      strokeLinecap="round" 
-                      strokeLinejoin="round" 
-                      strokeWidth={2} 
-                      d="M6 18L18 6M6 6l12 12" 
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M6 18L18 6M6 6l12 12"
                     />
                   </svg>
                 </div>
-                <h2 className="text-2xl font-bold text-white/90">Submission Error</h2>
-                <p className="text-red-400">There was an error submitting your registration.</p>
-                <button 
+                <h2 className="text-2xl font-bold text-white/90">
+                  Submission Error
+                </h2>
+                <p className="text-red-400">
+                  There was an error submitting your registration.
+                </p>
+                <button
                   onClick={() => {
                     setShowForm(true);
                     setSubmissionSuccess(null);
