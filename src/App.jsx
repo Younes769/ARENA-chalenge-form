@@ -17,10 +17,7 @@ function App() {
       await fetch('https://send.pageclip.co/vASBJvGlsoZtFuqI7KzeIMP6ga4mdjU1/arena', {
         method: 'POST',
         mode: 'no-cors',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(Object.fromEntries(formData))
+        body: formData
       });
 
       alert('Registration successful! Thank you for registering.');
@@ -45,9 +42,7 @@ function App() {
         onSubmit={handleSubmit}
         action="https://send.pageclip.co/vASBJvGlsoZtFuqI7KzeIMP6ga4mdjU1/arena"
         method="post"
-      
-        className="pageclip-form backdrop-blur-lg bg-black/40 p-8 rounded-2xl shadow-2xl w-full max-w-md border border-gray-800/50"
-        data-pageclip-form
+        className="pageclip-form"
       >
         {/* Full Name */}
         <label className="block mb-4">
