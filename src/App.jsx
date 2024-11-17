@@ -15,7 +15,7 @@ function App() {
       const form = e.target;
       const formData = new FormData(form);
       
-      // Create a URLSearchParams object instead of JSON
+      // Create a URLSearchParams object
       const params = new URLSearchParams();
       
       // Add each form field individually
