@@ -15,22 +15,22 @@ function App() {
       const form = e.target;
       const formData = new FormData(form);
       
-      // Convert FormData to a plain object
-      const formObject = {};
-      formData.forEach((value, key) => {
-        // Don't include empty team member fields
-        if (key.startsWith('teamMember') && !value) return;
-        formObject[key] = value;
-      });
+      // Create a URLSearchParams object
+      const params = new URLSearchParams();
+      
+      // Add each field individually
+      for (const [key, value] of formData.entries()) {
+        if (key.startsWith('teamMember') && !value) continue;
+        params.append(key, value);
+      }
 
-      // Send data directly without wrapping in a data object
       await fetch('https://send.pageclip.co/2Vcs3gyKFYmUV8zVKT4CppKxGn18NVdb/Arena_form', {
         method: 'POST',
         mode: 'no-cors',
         headers: {
-          'Content-Type': 'application/json',
+          'Content-Type': 'application/x-www-form-urlencoded',
         },
-        body: JSON.stringify(formObject)
+        body: params.toString()
       });
 
       setShowForm(false);
