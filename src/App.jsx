@@ -13,31 +13,19 @@ function App() {
 
     try {
       const form = e.target;
-      await window.Pageclip.send(
-        '2Vcs3gyKFYmUV8zVKT4CppKxGn18NVdb',
-        'Arena_form',
-        {
-          name: form.name.value,
-          email: form.email.value,
-          discord: form.discord.value,
-          universityYear: form.universityYear.value,
-          languages: form.languages.value,
-          teamName: form.teamName?.value,
-          teamMember1: form.teamMember1?.value,
-          teamMember2: form.teamMember2?.value,
-          teamMember3: form.teamMember3?.value,
-        }
-      );
-
+      form.submit();
+      
       setSubmissionSuccess(true);
-      alert('Registration successful! Thank you for registering.');
-      e.target.reset();
+      setTimeout(() => {
+        alert('Registration successful! Thank you for registering.');
+        form.reset();
+        setIsSubmitting(false);
+      }, 1000);
       
     } catch (error) {
       console.error('Submission error:', error);
       setSubmissionSuccess(false);
       alert('Network error. Please check your connection and try again.');
-    } finally {
       setIsSubmitting(false);
     }
   };
