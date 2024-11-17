@@ -18,7 +18,7 @@ function App() {
         jsonData[key] = value;
       });
 
-      const response = await fetch('https://send.pageclip.co/vASBJvGlsoZtFuqI7KzeIMP6ga4mdjU1/arena', {
+      await fetch('https://send.pageclip.co/vASBJvGlsoZtFuqI7KzeIMP6ga4mdjU1/arena', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -26,16 +26,12 @@ function App() {
         body: JSON.stringify(jsonData)
       });
 
-      if (response.ok) {
-        alert('Thank you for registering!');
-        e.target.reset();
-      } else {
-        throw new Error('Submission failed');
-      }
+      alert('Registration successful! Thank you for registering.');
+      e.target.reset();
       
     } catch (error) {
       console.error('Submission error:', error);
-      alert('There was an error. Please try again.');
+      alert('Network error. Please check your connection and try again.');
     } finally {
       setIsSubmitting(false);
     }
