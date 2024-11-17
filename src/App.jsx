@@ -6,6 +6,7 @@ function App() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [showForm, setShowForm] = useState(true);
   const [hasTeam, setHasTeam] = useState(false);
+  const [needsTransport, setNeedsTransport] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -116,6 +117,34 @@ function App() {
             <option value="L3">L3</option>
           </select>
         </label>
+
+        {/* NIT Transport */}
+        <label className="block mb-4">
+          <span className="text-white/90 mb-1 block">Interested in NIT Transport?</span>
+          <select
+            name="needsTransport"
+            onChange={(e) => setNeedsTransport(e.target.value === "yes")}
+            required
+            className="mt-1 p-2 w-full border bg-gray-950/50 border-gray-800 rounded-md text-white/90 focus:ring-2 focus:ring-blue-600 focus:border-transparent"
+          >
+            <option value="no">No</option>
+            <option value="yes">Yes</option>
+          </select>
+        </label>
+
+        {/* Location field - appears when transport is needed */}
+        {needsTransport && (
+          <label className="block mb-4">
+            <span className="text-white/90 mb-1 block">Your Location</span>
+            <input
+              type="text"
+              name="location"
+              required
+              placeholder="Enter your location"
+              className="mt-1 p-2 w-full border bg-gray-950/50 border-gray-800 rounded-md text-white/90 focus:ring-2 focus:ring-blue-600 focus:border-transparent placeholder-gray-500"
+            />
+          </label>
+        )}
 
         {/* Programming Languages */}
         <label className="block mb-4">
