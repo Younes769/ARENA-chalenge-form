@@ -9,11 +9,10 @@
       ]
     }
   ],
-  "routes": [
+  "rewrites": [
     {
-      "src": "/.well-known/vercel/microfrontend-routing",
-      "status": 200,
-      "dest": "/api/microfrontend-routing.json"
+      "source": "/.well-known/vercel/microfrontend-routing",
+      "destination": "/api/microfrontend-routing.json"
     }
   ]
 }
