@@ -16,22 +16,21 @@ function App() {
       const formData = new FormData(form);
       
       // Convert FormData to a plain object
-      const data = {};
+      const formObject = {};
       formData.forEach((value, key) => {
         // Don't include empty team member fields
         if (key.startsWith('teamMember') && !value) return;
-        data[key] = value;
+        formObject[key] = value;
       });
 
-      // Send data as JSON
+      // Send data directly without wrapping in a data object
       await fetch('https://send.pageclip.co/2Vcs3gyKFYmUV8zVKT4CppKxGn18NVdb/Arena_form', {
         method: 'POST',
+        mode: 'no-cors',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({
-          data: data  // Wrap the data in a 'data' object as Pageclip expects
-        })
+        body: JSON.stringify(formObject)
       });
 
       setShowForm(false);
