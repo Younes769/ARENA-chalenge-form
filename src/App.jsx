@@ -12,19 +12,30 @@ function App() {
     setIsSubmitting(true);
 
     try {
-      const formData = new FormData(e.target);
-      
-      await fetch('https://send.pageclip.co/2Vcs3gyKFYmUV8zVKT4CppKxGn18NVdb/Arena_form', {
-        method: 'POST',
-        mode: 'no-cors',
-        body: formData
-      });
+      const form = e.target;
+      await window.Pageclip.send(
+        '2Vcs3gyKFYmUV8zVKT4CppKxGn18NVdb',
+        'Arena_form',
+        {
+          name: form.name.value,
+          email: form.email.value,
+          discord: form.discord.value,
+          universityYear: form.universityYear.value,
+          languages: form.languages.value,
+          teamName: form.teamName?.value,
+          teamMember1: form.teamMember1?.value,
+          teamMember2: form.teamMember2?.value,
+          teamMember3: form.teamMember3?.value,
+        }
+      );
 
+      setSubmissionSuccess(true);
       alert('Registration successful! Thank you for registering.');
       e.target.reset();
       
     } catch (error) {
       console.error('Submission error:', error);
+      setSubmissionSuccess(false);
       alert('Network error. Please check your connection and try again.');
     } finally {
       setIsSubmitting(false);
@@ -169,7 +180,7 @@ function App() {
         <button
           type="submit"
           disabled={isSubmitting}
-          className="w-full bg-gradient-to-r from-blue-700 to-indigo-800 text-white p-3 rounded-md hover:from-blue-800 hover:to-indigo-900 transform transition-all duration-200 hover:scale-[1.02] disabled:opacity-50 disabled:cursor-not-allowed shadow-lg"
+          className="pageclip-form__submit w-full bg-gradient-to-r from-blue-700 to-indigo-800 text-white p-3 rounded-md hover:from-blue-800 hover:to-indigo-900 transform transition-all duration-200 hover:scale-[1.02] disabled:opacity-50 disabled:cursor-not-allowed shadow-lg"
         >
           {isSubmitting ? (
             <div className="flex items-center justify-center">
