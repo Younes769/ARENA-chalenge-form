@@ -13,17 +13,14 @@ function App() {
 
     try {
       const formData = new FormData(e.target);
-      const jsonData = {};
-      formData.forEach((value, key) => {
-        jsonData[key] = value;
-      });
-
+      
       await fetch('https://send.pageclip.co/vASBJvGlsoZtFuqI7KzeIMP6ga4mdjU1/arena', {
         method: 'POST',
+        mode: 'no-cors',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(jsonData)
+        body: JSON.stringify(Object.fromEntries(formData))
       });
 
       alert('Registration successful! Thank you for registering.');
