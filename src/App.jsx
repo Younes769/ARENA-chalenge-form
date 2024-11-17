@@ -14,7 +14,7 @@ function App() {
     try {
       const formData = new FormData(e.target);
       
-      await fetch('https://send.pageclip.co/vASBJvGlsoZtFuqI7KzeIMP6ga4mdjU1/arena', {
+      await fetch('https://send.pageclip.co/2Vcs3gyKFYmUV8zVKT4CppKxGn18NVdb/Arena_form', {
         method: 'POST',
         mode: 'no-cors',
         body: formData
@@ -40,7 +40,7 @@ function App() {
       </h1>
       <form
         onSubmit={handleSubmit}
-        action="https://send.pageclip.co/vASBJvGlsoZtFuqI7KzeIMP6ga4mdjU1/arena"
+        action="https://send.pageclip.co/2Vcs3gyKFYmUV8zVKT4CppKxGn18NVdb/Arena_form"
         method="post"
         className="pageclip-form"
       >
