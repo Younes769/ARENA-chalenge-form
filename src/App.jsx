@@ -11,31 +11,22 @@ function App() {
     e.preventDefault();
     setIsSubmitting(true);
 
-    const form = e.target;
-    
     try {
-      const formData = new FormData(form);
+      // Get the form data
+      const formData = new FormData(e.target);
       
-      const jsonData = {};
-      formData.forEach((value, key) => {
-        jsonData[key] = value;
-      });
-
+      // Make the fetch request
       const response = await fetch('https://send.pageclip.co/vASBJvGlsoZtFuqI7KzeIMP6ga4mdjU1/arena', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(jsonData)
+        mode: 'no-cors',
+        body: formData
       });
 
-      if (response.ok || response.status === 0) {
-        console.log('Submission completed');
-        setSubmissionSuccess(true);
-        form.reset();
-      } else {
-        throw new Error('Submission failed');
-      }
+      // Since we're using no-cors, we won't get a proper response status
+      // We'll assume success if no error was thrown
+      console.log('Submission completed');
+      setSubmissionSuccess(true);
+      e.target.reset();
       
     } catch (error) {
       console.error('Submission error:', error);
