@@ -15,20 +15,22 @@ function App() {
       const form = e.target;
       const formData = new FormData(form);
       
-      // Convert FormData to a plain object
-      const formObject = {};
+      // Create a URLSearchParams object
+      const params = new URLSearchParams();
+      
+      // Add each form field individually
       formData.forEach((value, key) => {
-        formObject[key] = value;
+        params.append(key, value);
       });
 
-      // Using your new Pageclip URL and sending JSON data
+      // Using your Pageclip URL with form-urlencoded data
       await fetch('https://send.pageclip.co/2Vcs3gyKFYmUV8zVKT4CppKxGn18NVdb/Arena_form', {
         method: 'POST',
         mode: 'no-cors',
         headers: {
-          'Content-Type': 'application/json',
+          'Content-Type': 'application/x-www-form-urlencoded',
         },
-        body: JSON.stringify(formObject)
+        body: params.toString()
       });
 
       // Show success message and reset form
