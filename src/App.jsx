@@ -15,25 +15,25 @@ function App() {
       const form = e.target;
       const formData = new FormData(form);
       
-      // Create a URLSearchParams object
-      const params = new URLSearchParams();
-      
-      // Add each form field individually
+      // Convert FormData to a plain object
+      const data = {};
       formData.forEach((value, key) => {
-        params.append(key, value);
+        // Don't include empty team member fields
+        if (key.startsWith('teamMember') && !value) return;
+        data[key] = value;
       });
 
-      // Using your Pageclip URL with form-urlencoded data
+      // Send data as JSON
       await fetch('https://send.pageclip.co/2Vcs3gyKFYmUV8zVKT4CppKxGn18NVdb/Arena_form', {
         method: 'POST',
-        mode: 'no-cors',
         headers: {
-          'Content-Type': 'application/x-www-form-urlencoded',
+          'Content-Type': 'application/json',
         },
-        body: params.toString()
+        body: JSON.stringify({
+          data: data  // Wrap the data in a 'data' object as Pageclip expects
+        })
       });
 
-      // Show success message and reset form
       setShowForm(false);
       form.reset();
     } catch (error) {
