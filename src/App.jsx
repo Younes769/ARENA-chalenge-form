@@ -23,7 +23,7 @@ function App() {
         params.append(key, value);
       });
 
-      await fetch('https://send.pageclip.co/2Vcs3gyKFYmUV8zVKT4CppKxGn18NVdb/Arena_form', {
+      await fetch('https://send.pageclip.co/2Vcs3gyKFYmUV8zVKT4CppKxGn18NVdb', {
         method: 'POST',
         mode: 'no-cors',
         headers: {
